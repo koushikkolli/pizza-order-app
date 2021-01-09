@@ -74,7 +74,7 @@ const Menu = ()=>{
                         <h2 className="product-title">{ product.name }</h2>
                         <p className="product-desc">{ product.desc }</p>
                         <p className="product-price">{ product.price }</p>
-                        <button className="product-button">{product.button}</button>
+                        <button className="product-button">Add to Cart</button>
                     </div>  
                 </div>
             )
