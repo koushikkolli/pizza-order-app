@@ -5,8 +5,7 @@ import nodeJS from "../../apis/nodeJS"
 
 const Cart = ({cartData, onCartDataRemoval, emptyCart})=>{
     const [alert, setAlert] = useState(false)
-    const [alertClass, setAlertClass] = useState("")
-    const [alertMessage, setAlertMessage] = useState("")
+    const [alertFailure, setAlertFailure] = useState(false)
     const onRemoveFromCart = (index)=>{
         onCartDataRemoval(index)
     }
@@ -21,28 +20,22 @@ const Cart = ({cartData, onCartDataRemoval, emptyCart})=>{
         if(response.data.message === "Order is placed successfully"){
             setTimeout(()=>{
                 setAlert(false)
-                setAlertClass("alert alert-success myAlert-bottom")
-                setAlertMessage(response.data.message)
                 emptyCart()
               }, 2000)
               setAlert(true)
         }
         else{
             setTimeout(()=>{
-                setAlert(false)
-                setAlertClass("alert alert-danger myAlert-bottom")
-                setAlertMessage(response.data.message)
+                setAlertFailure(false)
               }, 2000)
-              setAlert(true)
+              setAlertFailure(true)
         }
        }
        catch(err){
         setTimeout(()=>{
-            setAlert(false)
-            setAlertClass("alert alert-danger myAlert-bottom")
-            setAlertMessage("Request failed")
+            setAlertFailure(false)
           }, 2000)
-          setAlert(true)
+          setAlertFailure(true)
     }
          
     }
@@ -103,7 +96,8 @@ const Cart = ({cartData, onCartDataRemoval, emptyCart})=>{
                 <button className="product-button" onClick={()=>onPlaceOrder()}>Place Order</button>
              </div>
         </div>
-        {alert ? <div role="alert" className={alertClass}><strong>{alertMessage}</strong></div> : null }
+        {alert ? <div role="alert" className="alert alert-success myAlert-bottom"><strong>Order is placed</strong></div> : null }
+        {alertFailure ? <div role="alert" className="alert alert-danger myAlert-bottom"><strong>Request Failed</strong></div> : null }
 
         </React.Fragment>
     )

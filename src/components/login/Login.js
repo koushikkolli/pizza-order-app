@@ -7,8 +7,7 @@ const Login = ()=>{
     const [resetClass, setResetClass] = useState("d-none")
     const [signUpClass, setSignUpClass] = useState("d-none")
     const [alert, setAlert] = useState(false)
-    const [alertClass, setAlertClass] = useState("")
-    const [alertMessage, setAlertMessage] = useState("")
+    const [alertFailure, setAlertFailure] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [role, setRole] = useState("")
@@ -48,27 +47,21 @@ const Login = ()=>{
             if(response.data.message === "Activation mail sent"){
                 setTimeout(()=>{
                     setAlert(false)
-                    setAlertClass("alert alert-success myAlert-bottom")
-                    setAlertMessage(response.data.message)
                   }, 2000)
                   setAlert(true)
             }
             else{
                 setTimeout(()=>{
-                    setAlert(false)
-                    setAlertClass("alert alert-danger myAlert-bottom")
-                    setAlertMessage(response.data.message)
+                    setAlertFailure(false)
                   }, 2000)
-                  setAlert(true)
+                  setAlertFailure(true)
             }
         }
         catch(err){
             setTimeout(()=>{
-                setAlert(false)
-                setAlertClass("alert alert-danger myAlert-bottom")
-                setAlertMessage("Request failed")
+                setAlertFailure(false)
               }, 2000)
-              setAlert(true)
+              setAlertFailure(true)
         }
 
        
@@ -85,28 +78,22 @@ const Login = ()=>{
             if(response.data.message === "Login success"){
                 setTimeout(()=>{
                     setAlert(false)
-                    setAlertClass("alert alert-success myAlert-bottom")
-                    setAlertMessage(response.data.message)
-                  }, 2000)
+                  }, 2000)  
                   setAlert(true)
             }
             else{
                 setTimeout(()=>{
-                    setAlert(false)
-                    setAlertClass("alert alert-danger myAlert-bottom")
-                    setAlertMessage(response.data.message)
+                    setAlertFailure(false)
                   }, 2000)
-                  setAlert(true)
+                  setAlertFailure(true)
             }
         }
         catch(err){
             console.log(err)
             setTimeout(()=>{
-                setAlert(false)
-                setAlertClass("alert alert-danger myAlert-bottom")
-                setAlertMessage("Request failed")
+                setAlertFailure(false)
               }, 2000)
-              setAlert(true)
+              setAlertFailure(true)
         }
         
     }
@@ -122,27 +109,21 @@ const Login = ()=>{
             if(response.data.message === "Verification mail sent"){
                 setTimeout(()=>{
                     setAlert(false)
-                    setAlertClass("alert alert-success myAlert-bottom")
-                    setAlertMessage(response.data.message)
                   }, 2000)
                   setAlert(true)
             }
             else{
                 setTimeout(()=>{
-                    setAlert(false)
-                    setAlertClass("alert alert-danger myAlert-bottom")
-                    setAlertMessage(response.data.message)
+                    setAlertFailure(false)
                   }, 2000)
-                  setAlert(true)
+                  setAlertFailure(true)
             }
         }
         catch(err){
             setTimeout(()=>{
-                setAlert(false)
-                setAlertClass("alert alert-danger myAlert-bottom")
-                setAlertMessage("Request failed")
+                setAlertFailure(false)
               }, 2000)
-              setAlert(true)
+              setAlertFailure(true)
         }
         
     }
@@ -177,7 +158,8 @@ const Login = ()=>{
                 <p className="message">Want to sign in? <a href="#!" onClick={onSignIn}>Sign In</a></p>
               </form>
             </div>
-            {alert ? <div role="alert" className={alertClass}><strong>{alertMessage}</strong></div> : null }
+            {alert ? <div role="alert" className="alert alert-success myAlert-bottom"><strong>Success</strong></div> : null }
+            {alertFailure ? <div role="alert" className="alert alert-danger myAlert-bottom"><strong>Request Failed</strong></div> : null }
           </div>
     )
 }
