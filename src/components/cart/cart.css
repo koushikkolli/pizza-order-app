@@ -6,8 +6,9 @@
     color: #fff;
     }
 
+
 .product-wrapper{
-    display: flex;
+    
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 auto;
@@ -28,7 +29,10 @@
   box-shadow: 8px 8px #fdc500;
 }
 
-
+.product-height{
+    height: 300px;
+    overflow: auto;
+}
 .product-heading{
     font-size: clamp(2rem, 2.5vw, 3rem);
     text-align: center;
@@ -86,12 +90,6 @@
     position: fixed;
     bottom: 0px;
     right:2%;
-    width: 220px;
+    width: 600px;
     text-align: center;
   }
-
-
-  .product-height{
-    height: 300px;
-    overflow: auto;
-}

@@ -2,12 +2,13 @@ import React, { useState } from "react"
 import { RiCloseCircleLine } from 'react-icons/ri';
 import "./customize.css"
 
-const Customize = ()=>{
+const Customize = ({ onCartDataAdd })=>{
     const [ pizzaBase, setPizzaBase ] = useState("Thin Crust")
     const [ pizzaSauce, setPizzaSauce ] = useState("Pesto")
     const [ pizzaCheese, setPizzaCheese ] = useState("Peri Peri Cheese")
     const [ vegToppings, setVegToppings ] = useState([])
     const [ nonVegToppings, setNonVegToppings ] = useState([])
+    const [alert, setAlert] = useState(false)
 
     const onVegToppingsChange = (event)=>{
         setVegToppings([...vegToppings, event.target.value])
@@ -70,11 +71,14 @@ const Customize = ()=>{
 
     const onSubmit = (event)=>{
         event.preventDefault()
-        console.log(pizzaBase)
-        console.log(pizzaSauce)
-        console.log(pizzaCheese)
-        console.log(vegToppings)
-        console.log(nonVegToppings)
+        const additionalPrice = (vegToppings.length > 3 ? (30 * (vegToppings.length - 3)) : 0) + (nonVegToppings.length > 1 ? (50 * (nonVegToppings.length - 1)) : 0)
+        const totalPrice = 200 + additionalPrice
+        setTimeout(()=>{
+            setAlert(false)
+          }, 2000)
+          setAlert(true)
+        onCartDataAdd({name: "Customized Pizza", base: pizzaBase, cheese: pizzaCheese, sauce:pizzaSauce,
+                      vegToppings:vegToppings, nonVegToppings:nonVegToppings, price: totalPrice, quantity: 1})
     }
     return(
         <div className="customize-container container-fluid">
@@ -139,7 +143,7 @@ const Customize = ()=>{
                             <option value="">--Select Non-Veg Toppings--</option>
                             <option value="Tandoori Chicken">Tandoori Chicken</option>
                             <option value="Chicken Tikka">Chicken Tikka</option>
-                            <option value="Chicken Peporoni">Chicken Peporoni</option>
+                            <option value="Chicken Pepperoni">Chicken Peporoni</option>
                             <option value="Chicken Sausage">Chicken Sausage</option>
                             <option value="Chicken Meatballs">Chicken Meatballs</option>
                             <option value="Bacon">Bacon</option>
@@ -154,6 +158,7 @@ const Customize = ()=>{
                     </form>
                 </div>
             </div>
+            {alert ? <div role="alert" className="alert alert-success myAlert-bottom"><strong>Added to the Cart</strong></div> : null }
         </div>
     )
 }

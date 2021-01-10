@@ -92,4 +92,12 @@
     margin-bottom: 1rem;
     font-size: 2rem;
 }
+
+.myAlert-bottom{
+    position: fixed;
+    bottom: 0px;
+    right:2%;
+    width: 200px;
+    text-align: center;
+  }
   

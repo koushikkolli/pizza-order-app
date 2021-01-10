@@ -1,70 +1,23 @@
-import React from "react"
+import React, { useState } from "react"
 
 import "./menu.css"
-import product1 from '../../images/product-1.jpg';
-import product2 from '../../images/product-2.jpg';
-import product3 from '../../images/product-3.jpg';
-
-const productData = [
-  {
-    img: product1,
-    alt: 'Pizza',
-    name: 'Supreme Pizza',
-    desc:
-      'Marinara sauce, basil, italian sausage, roma tomatoes, olives, and pesto',
-    price: '$19.99',
-    button: 'Add to Cart'
-  },
-  {
-    img: product2,
-    alt: 'Pizza',
-    name: 'Hawaiian Paradise',
-    desc:
-      ' Marinara sauce, basil, italian sausage, roma tomatoes, olives, and pesto',
-    price: '$16.99',
-    button: 'Add to Cart'
-  },
-  {
-    img: product3,
-    alt: 'Pizza',
-    name: 'Veggie Overload',
-    desc:
-      ' Marinara sauce, basil, italian sausage, roma tomatoes, olives, and pesto',
-    price: '$14.99',
-    button: 'Add to Cart'
-  },
-  {
-    img: product1,
-    alt: 'Pizza',
-    name: 'Supreme Pizza',
-    desc:
-      'Marinara sauce, basil, italian sausage, roma tomatoes, olives, and pesto',
-    price: '$19.99',
-    button: 'Add to Cart'
-  },
-  {
-    img: product2,
-    alt: 'Pizza',
-    name: 'Hawaiian Paradise',
-    desc:
-      ' Marinara sauce, basil, italian sausage, roma tomatoes, olives, and pesto',
-    price: '$16.99',
-    button: 'Add to Cart'
-  },
-  {
-    img: product3,
-    alt: 'Pizza',
-    name: 'Veggie Overload',
-    desc:
-      ' Marinara sauce, basil, italian sausage, roma tomatoes, olives, and pesto',
-    price: '$14.99',
-    button: 'Add to Cart'
-  }
-];
 
 
 
-const Menu = ()=>{
+const Menu = ({ productData, onCartDataAdd })=>{
+    const [alert, setAlert] = useState(false)
+    const onAddToCart = (value)=>{
+        const addedPizza = productData.filter((data, index)=> value === index)[0]
+        const object = {name: addedPizza.name, base: addedPizza.base, cheese: addedPizza.cheese, sauce:addedPizza.sauce,
+          vegToppings:addedPizza.vegToppings, nonVegToppings:addedPizza.nonVegToppings, price: addedPizza.price, quantity: 1}
+          console.log(object)
+        setTimeout(()=>{
+          setAlert(false)
+        }, 2000)
+        setAlert(true)
+        onCartDataAdd(object)
+        
+    }
     const renderList = ()=>{
         return productData.map((product, index)=>{
             return(
@@ -72,9 +25,15 @@ const Menu = ()=>{
                     <img src={product.img} alt={product.alt} className="product-image"></img>
                     <div className="product-info">
                         <h2 className="product-title">{ product.name }</h2>
-                        <p className="product-desc">{ product.desc }</p>
-                        <p className="product-price">{ product.price }</p>
-                        <button className="product-button">Add to Cart</button>
+                        <div className="product-height">
+                        <p className="product-desc">Pizza Base: { product.base }</p>
+                        <p className="product-desc">Pizza Sauce: { product.sauce }</p>
+                        <p className="product-desc">Pizza Cheese: { product.cheese }</p>
+                        {product.vegToppings.length > 0 ?<p className="product-desc">Veg Toppings: { product.vegToppings.join(",") }</p> : null}
+                        {product.nonVegToppings.length > 0 ? <p className="product-desc">Non-Veg Toppings: { product.nonVegToppings.join(",") }</p> : null}
+                        </div>
+                        <p className="product-price"  style={{ textTransform: "none", fontWeight:"150px"}}>Rs { product.price }</p>
+                        <button className="product-button" onClick={()=>onAddToCart(index)}>Add to Cart</button>
                     </div>  
                 </div>
             )
@@ -82,12 +41,15 @@ const Menu = ()=>{
     }
 
     return(
+      <React.Fragment>
        <div className="product-container glbal-styles">
            <h1 className="product-heading">Choose your favorite</h1>
            <div className="product-wrapper">
                 {renderList()}
             </div>
        </div>
+       {alert ? <div role="alert" className="alert alert-success myAlert-bottom"><strong>Added to the Cart</strong></div> : null }
+       </React.Fragment>
     )
 }
 

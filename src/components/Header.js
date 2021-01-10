@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Link from './Link';
 import "./styles.css"
 
-const Header = () => {
+const Header = ({orders}) => {
   const [windowPath, setWindowPath] = useState(window.location.pathname)
 
 
@@ -13,7 +13,7 @@ const Header = () => {
             <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="nav navbar-nav">
+            <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
                     <Link className={`nav-link ${windowPath === "/" ? "active" : ""} `} href="/" onWindowChange={()=>setWindowPath(window.location.pathname)}>Home</Link>
                 </li>
@@ -24,9 +24,13 @@ const Header = () => {
                     <Link className={`nav-link ${windowPath === "/customize" ? "active" : ""}`} href="/customize"  onWindowChange={()=>setWindowPath(window.location.pathname)}>Customize Pizza</Link>
                 </li>       
             </ul>
-            <ul className="nav navbar-nav navbar-right">
+            <ul className="navbar-nav ml-auto">
                 <li  className="nav-item">
-                    <Link className={`nav-link ${windowPath === "/cart" ? "active" : ""}`} href="/cart" onWindowChange={()=>setWindowPath(window.location.pathname)}>Cart</Link>
+                    <Link className={`nav-link ${windowPath === "/cart" ? "active" : ""}`} href="/cart" onWindowChange={()=>setWindowPath(window.location.pathname)}>
+                        <span>
+                            Cart {orders > 0 ? <span className="badge badge-light">{orders}</span>: null}
+                        </span>
+                    </Link>
                 </li>
                 <li className="nav-item">
                     <Link className={`nav-link ${windowPath === "/login" ? "active" : ""}`} href="/login" onWindowChange={()=>setWindowPath(window.location.pathname)}>Login</Link>
