@@ -98,7 +98,6 @@ const App = ()=>{
     }, [])
     const onCartDataAdd = (addedData) =>{
         setCartData([...cartData, addedData])
-        console.log(cartData)
     }
 
     const onCartDataRemoval = (value) => {

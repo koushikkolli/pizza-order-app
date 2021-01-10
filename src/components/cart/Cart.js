@@ -2,13 +2,48 @@ import React, {useState} from "react"
 import "./cart.css"
 import nodeJS from "../../apis/nodeJS"
 
-
+function loadScript(src) {
+	return new Promise((resolve) => {
+		const script = document.createElement('script')
+		script.src = src
+		script.onload = () => {
+			resolve(true)
+		}
+		script.onerror = () => {
+			resolve(false)
+		}
+		document.body.appendChild(script)
+	})
+}
 const Cart = ({cartData, onCartDataRemoval, emptyCart})=>{
     const [alert, setAlert] = useState(false)
     const [alertFailure, setAlertFailure] = useState(false)
     const onRemoveFromCart = (index)=>{
         onCartDataRemoval(index)
     }
+
+    async function displayRazorpay(amount) {
+		const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+
+		if (!res) {
+			alert('Razorpay SDK failed to load. Are you online?')
+			return
+		}
+
+		const options = {
+			key: 'rzp_test_Nh5JQbZ3Qoskot',
+			currency: "INR",
+			amount: amount.toString(),
+			name: 'Pizza Shop',
+			description: 'Pizza order and delivery cost',
+			image: '',
+			handler: function (response) {
+				onPlaceOrder()
+			}
+		}
+		const paymentObject = new window.Razorpay(options)
+		paymentObject.open()
+	}
 
     const onPlaceOrder= async ()=>{
     const returnObject = {
@@ -93,7 +128,7 @@ const Cart = ({cartData, onCartDataRemoval, emptyCart})=>{
              <p className="product-price"  style={{ textTransform: "none", textAlign:"center"}}>Total Amount: Rs {calculateAmount()}</p>
              <div className="d-flex justify-content-center">
                 
-                <button className="product-button" onClick={()=>onPlaceOrder()}>Place Order</button>
+                <button className="product-button" onClick={()=>displayRazorpay(calculateAmount()*100)}>Place Order</button>
              </div>
         </div>
         {alert ? <div role="alert" className="alert alert-success myAlert-bottom"><strong>Order is placed</strong></div> : null }

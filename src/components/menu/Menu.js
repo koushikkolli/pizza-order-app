@@ -10,7 +10,6 @@ const Menu = ({ productData, onCartDataAdd })=>{
         const addedPizza = productData.filter((data, index)=> value === index)[0]
         const object = {name: addedPizza.name, base: addedPizza.base, cheese: addedPizza.cheese, sauce:addedPizza.sauce,
           vegToppings:addedPizza.vegToppings, nonVegToppings:addedPizza.nonVegToppings, price: addedPizza.price, quantity: 1}
-          console.log(object)
         setTimeout(()=>{
           setAlert(false)
         }, 2000)
